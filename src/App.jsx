@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [todo, setTodo] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const addTodo = (event) => {
+    event.preventDefault();
+
+    if (!inputValue) return;
+    setTodo([...todo, inputValue]);
+    setInputValue("");
+  };
+
+  const removeTodo = () => {
+    
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div>
+      <h1>Todo List</h1>
+      <form onSubmit={addTodo}>
+        <input
+          type="text"
+          onChange={(event) => setInputValue(event.target.value)}
+          placeholder="Enter todo.."
+          value={inputValue}
+        />
+        <button type="submit">Add Todo</button>
+      </form>
 
-export default App
+      <ul>
+        {todo.map((t, id) => (
+          <li key={id}>
+            {t}
+            <button onClick={removeTodo}>❌</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default App;
