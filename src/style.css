@@ -1,0 +1,37 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+  gap: 20px;
+}
+.form,
+ul {
+  display: flex;
+  gap: 5px;
+  width: 30%;
+}
+ul {
+  flex-direction: column;
+  list-style-type: none;
+  padding-inline-start: 0px;
+}
+input,
+li {
+  width: 100%;
+  padding: 6px 10px;
+}
+li {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(239, 238, 238);
+}
+.btn {
+  padding: 6px 25px;
+}

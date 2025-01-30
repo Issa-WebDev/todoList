@@ -1,39 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const App = () => {
-  const [todo, setTodo] = useState([]);
+  const [todos, setTodo] = useState(() => {
+    const savedTodo = localStorage.getItem("todo");
+    return savedTodo ? JSON.parse(savedTodo) : [];
+  });
   const [inputValue, setInputValue] = useState("");
 
   const addTodo = (event) => {
     event.preventDefault();
 
     if (!inputValue) return;
-    setTodo([...todo, inputValue]);
+    setTodo((todos) => [...todos, { id: Date.now(), text: inputValue }]);
     setInputValue("");
   };
 
-  const removeTodo = () => {
-    
+  const removeTodo = (currentId) => {
+    setTodo(todos.filter((todo) => todo.id !== currentId));
   };
 
+  useEffect(() => {
+    localStorage.setItem("todo", JSON.stringify(todos));
+  }, [todos]);
+
   return (
-    <div>
-      <h1>Todo List</h1>
-      <form onSubmit={addTodo}>
+    <div className="container">
+      <h1 className="title">Todo List</h1>
+      <form className="form" onSubmit={addTodo}>
         <input
           type="text"
           onChange={(event) => setInputValue(event.target.value)}
           placeholder="Enter todo.."
           value={inputValue}
         />
-        <button type="submit">Add Todo</button>
+        <button className="btn" type="submit">
+          Submit
+        </button>
       </form>
 
       <ul>
-        {todo.map((t, id) => (
+        {todos.map(({ id, text }) => (
           <li key={id}>
-            {t}
-            <button onClick={removeTodo}>❌</button>
+            {text}
+            <button className="close" onClick={() => removeTodo(id)}>
+              ❌
+            </button>
           </li>
         ))}
       </ul>
